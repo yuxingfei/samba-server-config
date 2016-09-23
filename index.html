@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Samba-server-config : windows访问samba共享文件夹">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Samba-server-config</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/yuxingfei/samba-server-config">View on GitHub</a>
+
+          <h1 id="project_title">Samba-server-config</h1>
+          <h2 id="project_tagline">windows访问samba共享文件夹</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/yuxingfei/samba-server-config/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/yuxingfei/samba-server-config/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="samba-server-config" class="anchor" href="#samba-server-config" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>samba-server-config</h1>
+
+<p>windows访问samba共享文件夹</p>
+
+<p>网上有很多关于此问题的说明，但五花八门，很多人都没配置成功，我试了几个也不成功，研究了下重新整理了个亲测可使用的配置说明
+技术交流QQ群242722019</p>
+
+<p>1、关闭防火墙iptables和SELinux
+2、安装samba服务yum -y install samba
+3、useradd smb //首先创建一个测试账号用于登录samba验证用户
+4、chown -R smb:smb chatroom/  //这里举例我要把chatroom文件夹作为共享文件夹,更改当前文件夹及里面文件的所属组为smb所有
+5、开始进行smb.conf配置文件的设置
+6、smbpasswd smb //为smb账号设置独立的smbpasswd
+7、启动 service smb start</p>
+
+<p>附上
+smb.conf配置文件</p>
+
+<h1>
+<a id="this-is-the-main-samba-configuration-file-you-should-read-the" class="anchor" href="#this-is-the-main-samba-configuration-file-you-should-read-the" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>This is the main Samba configuration file. You should read the</h1>
+
+<h1>
+<a id="smbconf5-manual-page-in-order-to-understand-the-options-listed" class="anchor" href="#smbconf5-manual-page-in-order-to-understand-the-options-listed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>smb.conf(5) manual page in order to understand the options listed</h1>
+
+<h1>
+<a id="here-samba-has-a-huge-number-of-configurable-options-perhaps-too" class="anchor" href="#here-samba-has-a-huge-number-of-configurable-options-perhaps-too" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>here. Samba has a huge number of configurable options (perhaps too</h1>
+
+<h1>
+<a id="many-most-of-which-are-not-shown-in-this-example" class="anchor" href="#many-most-of-which-are-not-shown-in-this-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>many!) most of which are not shown in this example</h1>
+
+<h1>
+<a id="for-a-step-to-step-guide-on-installing-configuring-and-using-samba" class="anchor" href="#for-a-step-to-step-guide-on-installing-configuring-and-using-samba" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>For a step to step guide on installing, configuring and using samba,</h1>
+
+<h1>
+<a id="read-the-samba-howto-collection-this-may-be-obtained-from" class="anchor" href="#read-the-samba-howto-collection-this-may-be-obtained-from" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>read the Samba-HOWTO-Collection. This may be obtained from:</h1>
+
+<h1>
+<a id="httpwwwsambaorgsambadocssamba-howto-collectionpdf" class="anchor" href="#httpwwwsambaorgsambadocssamba-howto-collectionpdf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://www.samba.org/samba/docs/Samba-HOWTO-Collection.pdf">http://www.samba.org/samba/docs/Samba-HOWTO-Collection.pdf</a>
+</h1>
+
+<h1>
+<a id="many-working-examples-of-smbconf-files-can-be-found-in-the" class="anchor" href="#many-working-examples-of-smbconf-files-can-be-found-in-the" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Many working examples of smb.conf files can be found in the</h1>
+
+<h1>
+<a id="samba-guide-which-is-generated-daily-and-can-be-downloaded-from" class="anchor" href="#samba-guide-which-is-generated-daily-and-can-be-downloaded-from" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Samba-Guide which is generated daily and can be downloaded from:</h1>
+
+<h1>
+<a id="httpwwwsambaorgsambadocssamba-guidepdf" class="anchor" href="#httpwwwsambaorgsambadocssamba-guidepdf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://www.samba.org/samba/docs/Samba-Guide.pdf">http://www.samba.org/samba/docs/Samba-Guide.pdf</a>
+</h1>
+
+<h1>
+<a id="any-line-which-starts-with-a--semi-colon-or-a--hash" class="anchor" href="#any-line-which-starts-with-a--semi-colon-or-a--hash" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Any line which starts with a ; (semi-colon) or a # (hash)</h1>
+
+<h1>
+<a id="is-a-comment-and-is-ignored-in-this-example-we-will-use-a" class="anchor" href="#is-a-comment-and-is-ignored-in-this-example-we-will-use-a" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>is a comment and is ignored. In this example we will use a</h1>
+
+<h1>
+<a id="for-commentry-and-a--for-parts-of-the-config-file-that-you" class="anchor" href="#for-commentry-and-a--for-parts-of-the-config-file-that-you" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for commentry and a ; for parts of the config file that you</h1>
+
+<h1>
+<a id="may-wish-to-enable" class="anchor" href="#may-wish-to-enable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>may wish to enable</h1>
+
+<h1>
+<a id="note-whenever-you-modify-this-file-you-should-run-the-command-testparm" class="anchor" href="#note-whenever-you-modify-this-file-you-should-run-the-command-testparm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NOTE: Whenever you modify this file you should run the command "testparm"</h1>
+
+<h1>
+<a id="to-check-that-you-have-not-made-any-basic-syntactic-errors" class="anchor" href="#to-check-that-you-have-not-made-any-basic-syntactic-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>to check that you have not made any basic syntactic errors.</h1>
+
+<h1>
+<a id="---------------" class="anchor" href="#---------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>---------------</h1>
+
+<h1>
+<a id="selinux-notes" class="anchor" href="#selinux-notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SELINUX NOTES:</h1>
+
+<h1>
+<a id="if-you-want-to-use-the-useraddgroupadd-family-of-binaries-please-run" class="anchor" href="#if-you-want-to-use-the-useraddgroupadd-family-of-binaries-please-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If you want to use the useradd/groupadd family of binaries please run:</h1>
+
+<h1>
+<a id="setsebool--p-samba_domain_controller-on" class="anchor" href="#setsebool--p-samba_domain_controller-on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setsebool -P samba_domain_controller on</h1>
+
+<h1>
+<a id="if-you-want-to-share-home-directories-via-samba-please-run" class="anchor" href="#if-you-want-to-share-home-directories-via-samba-please-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If you want to share home directories via samba please run:</h1>
+
+<h1>
+<a id="setsebool--p-samba_enable_home_dirs-on" class="anchor" href="#setsebool--p-samba_enable_home_dirs-on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setsebool -P samba_enable_home_dirs on</h1>
+
+<h1>
+<a id="if-you-create-a-new-directory-you-want-to-share-you-should-mark-it-as" class="anchor" href="#if-you-create-a-new-directory-you-want-to-share-you-should-mark-it-as" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If you create a new directory you want to share you should mark it as</h1>
+
+<h1>
+<a id="samba_share_t-so-that-selinux-will-let-you-write-into-it" class="anchor" href="#samba_share_t-so-that-selinux-will-let-you-write-into-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>"samba_share_t" so that selinux will let you write into it.</h1>
+
+<h1>
+<a id="make-sure-not-to-do-that-on-system-directories-as-they-may-already-have" class="anchor" href="#make-sure-not-to-do-that-on-system-directories-as-they-may-already-have" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Make sure not to do that on system directories as they may already have</h1>
+
+<h1>
+<a id="been-marked-with-othe-selinux-labels" class="anchor" href="#been-marked-with-othe-selinux-labels" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>been marked with othe SELinux labels.</h1>
+
+<h1>
+<a id="use-ls--ldz-path-to-see-which-context-a-directory-has" class="anchor" href="#use-ls--ldz-path-to-see-which-context-a-directory-has" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use ls -ldZ /path to see which context a directory has</h1>
+
+<h1>
+<a id="set-labels-only-on-directories-you-created" class="anchor" href="#set-labels-only-on-directories-you-created" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set labels only on directories you created!</h1>
+
+<h1>
+<a id="to-set-a-label-use-the-following-chcon--t-samba_share_t-path" class="anchor" href="#to-set-a-label-use-the-following-chcon--t-samba_share_t-path" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>To set a label use the following: chcon -t samba_share_t /path</h1>
+
+<h1>
+<a id="if-you-need-to-share-a-system-created-directory-you-can-use-one-of-the" class="anchor" href="#if-you-need-to-share-a-system-created-directory-you-can-use-one-of-the" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If you need to share a system created directory you can use one of the</h1>
+
+<h1>
+<a id="following-read-onlyread-write" class="anchor" href="#following-read-onlyread-write" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>following (read-only/read-write):</h1>
+
+<h1>
+<a id="setsebool--p-samba_export_all_ro-on" class="anchor" href="#setsebool--p-samba_export_all_ro-on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setsebool -P samba_export_all_ro on</h1>
+
+<h1>
+<a id="or" class="anchor" href="#or" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>or</h1>
+
+<h1>
+<a id="setsebool--p-samba_export_all_rw-on" class="anchor" href="#setsebool--p-samba_export_all_rw-on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>setsebool -P samba_export_all_rw on</h1>
+
+<h1>
+<a id="if-you-want-to-run-scripts-preexecroot-prexecprint-command-please" class="anchor" href="#if-you-want-to-run-scripts-preexecroot-prexecprint-command-please" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If you want to run scripts (preexec/root prexec/print command/...) please</h1>
+
+<h1>
+<a id="put-them-into-the-varlibsambascripts-directory-so-that-smbd-will-be" class="anchor" href="#put-them-into-the-varlibsambascripts-directory-so-that-smbd-will-be" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>put them into the /var/lib/samba/scripts directory so that smbd will be</h1>
+
+<h1>
+<a id="allowed-to-run-them" class="anchor" href="#allowed-to-run-them" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>allowed to run them.</h1>
+
+<h1>
+<a id="make-sure-you-copy-them-and-not-move-them-so-that-the-right-selinux-context" class="anchor" href="#make-sure-you-copy-them-and-not-move-them-so-that-the-right-selinux-context" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Make sure you COPY them and not MOVE them so that the right SELinux context</h1>
+
+<h1>
+<a id="is-applied-to-check-all-is-ok-use-restorecon--r--v-varlibsambascripts" class="anchor" href="#is-applied-to-check-all-is-ok-use-restorecon--r--v-varlibsambascripts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>is applied, to check all is ok use restorecon -R -v /var/lib/samba/scripts</h1>
+
+<h1>
+<a id="--------------" class="anchor" href="#--------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>--------------</h1>
+
+<h1>
+<a id="-global-settings-" class="anchor" href="#-global-settings-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>======================= Global Settings =====================================</h1>
+
+<p>[global]</p>
+
+<h1>
+<a id="------------------------network-related-options--------------------------" class="anchor" href="#------------------------network-related-options--------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>----------------------- Network Related Options -------------------------</h1>
+
+<h1>
+<a id="workgroup--nt-domain-name-or-workgroup-name-eg-midearth" class="anchor" href="#workgroup--nt-domain-name-or-workgroup-name-eg-midearth" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>workgroup = NT-Domain-Name or Workgroup-Name, eg: MIDEARTH</h1>
+
+<h1>
+<a id="server-string-is-the-equivalent-of-the-nt-description-field" class="anchor" href="#server-string-is-the-equivalent-of-the-nt-description-field" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>server string is the equivalent of the NT Description field</h1>
+
+<h1>
+<a id="netbios-name-can-be-used-to-specify-a-server-name-not-tied-to-the-hostname" class="anchor" href="#netbios-name-can-be-used-to-specify-a-server-name-not-tied-to-the-hostname" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>netbios name can be used to specify a server name not tied to the hostname</h1>
+
+<h1>
+<a id="interfaces-lets-you-configure-samba-to-use-multiple-interfaces" class="anchor" href="#interfaces-lets-you-configure-samba-to-use-multiple-interfaces" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Interfaces lets you configure Samba to use multiple interfaces</h1>
+
+<h1>
+<a id="if-you-have-multiple-network-interfaces-then-you-can-list-the-ones" class="anchor" href="#if-you-have-multiple-network-interfaces-then-you-can-list-the-ones" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If you have multiple network interfaces then you can list the ones</h1>
+
+<h1>
+<a id="you-want-to-listen-on-never-omit-localhost" class="anchor" href="#you-want-to-listen-on-never-omit-localhost" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>you want to listen on (never omit localhost)</h1>
+
+<h1>
+<a id="hosts-allowhosts-deny-lets-you-restrict-who-can-connect-and-you-can" class="anchor" href="#hosts-allowhosts-deny-lets-you-restrict-who-can-connect-and-you-can" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hosts Allow/Hosts Deny lets you restrict who can connect, and you can</h1>
+
+<h1>
+<a id="specifiy-it-as-a-per-share-option-as-well" class="anchor" href="#specifiy-it-as-a-per-share-option-as-well" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>specifiy it as a per share option as well</h1>
+
+<pre><code>workgroup = MYGROUP
+server string = Samba Server Version %v
+</code></pre>
+
+<p>;   netbios name = MYSERVER</p>
+
+<p>;   interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24 
+;   hosts allow = 127. 192.168.12. 192.168.13.</p>
+
+<h1>
+<a id="----------------------------logging-options------------------------------" class="anchor" href="#----------------------------logging-options------------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>--------------------------- Logging Options -----------------------------</h1>
+
+<h1>
+<a id="log-file-let-you-specify-where-to-put-logs-and-how-to-split-them-up" class="anchor" href="#log-file-let-you-specify-where-to-put-logs-and-how-to-split-them-up" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Log File let you specify where to put logs and how to split them up.</h1>
+
+<h1>
+<a id="max-log-size-let-you-specify-the-max-size-log-files-should-reach" class="anchor" href="#max-log-size-let-you-specify-the-max-size-log-files-should-reach" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Max Log Size let you specify the max size log files should reach</h1>
+
+<pre><code># logs split per machine
+log file = /var/log/samba/log.%m
+# max 50KB per log file, then rotate
+max log size = 50
+</code></pre>
+
+<h1>
+<a id="------------------------standalone-server-options-------------------------" class="anchor" href="#------------------------standalone-server-options-------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>----------------------- Standalone Server Options ------------------------</h1>
+
+<h1>
+<a id="scurity-can-be-set-to-user-sharedeprecated-or-serverdeprecated" class="anchor" href="#scurity-can-be-set-to-user-sharedeprecated-or-serverdeprecated" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scurity can be set to user, share(deprecated) or server(deprecated)</h1>
+
+<h1>
+<a id="backend-to-store-user-information-in-new-installations-should" class="anchor" href="#backend-to-store-user-information-in-new-installations-should" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backend to store user information in. New installations should</h1>
+
+<h1>
+<a id="use-either-tdbsam-or-ldapsam-smbpasswd-is-available-for-backwards" class="anchor" href="#use-either-tdbsam-or-ldapsam-smbpasswd-is-available-for-backwards" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>use either tdbsam or ldapsam. smbpasswd is available for backwards</h1>
+
+<h1>
+<a id="compatibility-tdbsam-requires-no-further-configuration" class="anchor" href="#compatibility-tdbsam-requires-no-further-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>compatibility. tdbsam requires no further configuration.</h1>
+
+<pre><code>security = user #上面描述的很清楚，user表示samba验证访问
+passdb backend = tdbsam
+</code></pre>
+
+<h1>
+<a id="------------------------domain-members-options-------------------------" class="anchor" href="#------------------------domain-members-options-------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>----------------------- Domain Members Options ------------------------</h1>
+
+<h1>
+<a id="security-must-be-set-to-domain-or-ads" class="anchor" href="#security-must-be-set-to-domain-or-ads" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Security must be set to domain or ads</h1>
+
+<h1>
+<a id="use-the-realm-option-only-with-security--ads" class="anchor" href="#use-the-realm-option-only-with-security--ads" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use the realm option only with security = ads</h1>
+
+<h1>
+<a id="specifies-the-active-directory-realm-the-host-is-part-of" class="anchor" href="#specifies-the-active-directory-realm-the-host-is-part-of" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Specifies the Active Directory realm the host is part of</h1>
+
+<h1>
+<a id="backend-to-store-user-information-in-new-installations-should-1" class="anchor" href="#backend-to-store-user-information-in-new-installations-should-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backend to store user information in. New installations should</h1>
+
+<h1>
+<a id="use-either-tdbsam-or-ldapsam-smbpasswd-is-available-for-backwards-1" class="anchor" href="#use-either-tdbsam-or-ldapsam-smbpasswd-is-available-for-backwards-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>use either tdbsam or ldapsam. smbpasswd is available for backwards</h1>
+
+<h1>
+<a id="compatibility-tdbsam-requires-no-further-configuration-1" class="anchor" href="#compatibility-tdbsam-requires-no-further-configuration-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>compatibility. tdbsam requires no further configuration.</h1>
+
+<h1>
+<a id="use-password-server-option-only-with-security--server-or-if-you-cant" class="anchor" href="#use-password-server-option-only-with-security--server-or-if-you-cant" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use password server option only with security = server or if you can't</h1>
+
+<h1>
+<a id="use-the-dns-to-locate-domain-controllers" class="anchor" href="#use-the-dns-to-locate-domain-controllers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>use the DNS to locate Domain Controllers</h1>
+
+<h1>
+<a id="the-argument-list-may-include" class="anchor" href="#the-argument-list-may-include" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The argument list may include:</h1>
+
+<h1>
+<a id="password-server--my_pdc_name-my_bdc_name-my_next_bdc_name" class="anchor" href="#password-server--my_pdc_name-my_bdc_name-my_next_bdc_name" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>password server = My_PDC_Name [My_BDC_Name] [My_Next_BDC_Name]</h1>
+
+<h1>
+<a id="or-to-auto-locate-the-domain-controllers" class="anchor" href="#or-to-auto-locate-the-domain-controllers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>or to auto-locate the domain controller/s</h1>
+
+<h1>
+<a id="password-server--" class="anchor" href="#password-server--" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>password server = *</h1>
+
+<p>;   security = domain
+;   passdb backend = tdbsam
+;   realm = MY_REALM</p>
+
+<p>;   password server = </p>
+
+<h1>
+<a id="------------------------domain-controller-options-------------------------" class="anchor" href="#------------------------domain-controller-options-------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>----------------------- Domain Controller Options ------------------------</h1>
+
+<h1>
+<a id="security-must-be-set-to-user-for-domain-controllers" class="anchor" href="#security-must-be-set-to-user-for-domain-controllers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Security must be set to user for domain controllers</h1>
+
+<h1>
+<a id="backend-to-store-user-information-in-new-installations-should-2" class="anchor" href="#backend-to-store-user-information-in-new-installations-should-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Backend to store user information in. New installations should</h1>
+
+<h1>
+<a id="use-either-tdbsam-or-ldapsam-smbpasswd-is-available-for-backwards-2" class="anchor" href="#use-either-tdbsam-or-ldapsam-smbpasswd-is-available-for-backwards-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>use either tdbsam or ldapsam. smbpasswd is available for backwards</h1>
+
+<h1>
+<a id="compatibility-tdbsam-requires-no-further-configuration-2" class="anchor" href="#compatibility-tdbsam-requires-no-further-configuration-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>compatibility. tdbsam requires no further configuration.</h1>
+
+<h1>
+<a id="domain-master-specifies-samba-to-be-the-domain-master-browser-this" class="anchor" href="#domain-master-specifies-samba-to-be-the-domain-master-browser-this" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Domain Master specifies Samba to be the Domain Master Browser. This</h1>
+
+<h1>
+<a id="allows-samba-to-collate-browse-lists-between-subnets-dont-use-this" class="anchor" href="#allows-samba-to-collate-browse-lists-between-subnets-dont-use-this" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>allows Samba to collate browse lists between subnets. Don't use this</h1>
+
+<h1>
+<a id="if-you-already-have-a-windows-nt-domain-controller-doing-this-job" class="anchor" href="#if-you-already-have-a-windows-nt-domain-controller-doing-this-job" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>if you already have a Windows NT domain controller doing this job</h1>
+
+<h1>
+<a id="domain-logons-let-samba-be-a-domain-logon-server-for-windows-workstations" class="anchor" href="#domain-logons-let-samba-be-a-domain-logon-server-for-windows-workstations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Domain Logons let Samba be a domain logon server for Windows workstations.</h1>
+
+<h1>
+<a id="logon-scrpit-let-yuou-specify-a-script-to-be-run-at-login-time-on-the-client" class="anchor" href="#logon-scrpit-let-yuou-specify-a-script-to-be-run-at-login-time-on-the-client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Logon Scrpit let yuou specify a script to be run at login time on the client</h1>
+
+<h1>
+<a id="you-need-to-provide-it-in-a-share-called-netlogon" class="anchor" href="#you-need-to-provide-it-in-a-share-called-netlogon" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>You need to provide it in a share called NETLOGON</h1>
+
+<h1>
+<a id="logon-path-let-you-specify-where-user-profiles-are-stored-unc-path" class="anchor" href="#logon-path-let-you-specify-where-user-profiles-are-stored-unc-path" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Logon Path let you specify where user profiles are stored (UNC path)</h1>
+
+<h1>
+<a id="various-scripts-can-be-used-on-a-domain-controller-or-stand-alone" class="anchor" href="#various-scripts-can-be-used-on-a-domain-controller-or-stand-alone" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Various scripts can be used on a domain controller or stand-alone</h1>
+
+<h1>
+<a id="machine-to-add-or-delete-corresponding-unix-accounts" class="anchor" href="#machine-to-add-or-delete-corresponding-unix-accounts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>machine to add or delete corresponding unix accounts</h1>
+
+<p>;   security = user
+;   passdb backend = tdbsam</p>
+
+<p>;   domain master = yes 
+;   domain logons = yes</p>
+
+<pre><code># the login script name depends on the machine name
+</code></pre>
+
+<p>;   logon script = %m.bat
+    # the login script name depends on the unix user used
+;   logon script = %u.bat
+;   logon path = \%L\Profiles\%u
+    # disables profiles support by specifing an empty path
+;   logon path =          </p>
+
+<p>;   add user script = /usr/sbin/useradd "%u" -n -g users
+;   add group script = /usr/sbin/groupadd "%g"
+;   add machine script = /usr/sbin/useradd -n -c "Workstation (%u)" -M -d /nohome -s /bin/false "%u"
+;   delete user script = /usr/sbin/userdel "%u"
+;   delete user from group script = /usr/sbin/userdel "%u" "%g"
+;   delete group script = /usr/sbin/groupdel "%g"</p>
+
+<h1>
+<a id="------------------------browser-control-options-----------------------------" class="anchor" href="#------------------------browser-control-options-----------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>----------------------- Browser Control Options ----------------------------</h1>
+
+<h1>
+<a id="set-local-master-to-no-if-you-dont-want-samba-to-become-a-master" class="anchor" href="#set-local-master-to-no-if-you-dont-want-samba-to-become-a-master" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>set local master to no if you don't want Samba to become a master</h1>
+
+<h1>
+<a id="browser-on-your-network-otherwise-the-normal-election-rules-apply" class="anchor" href="#browser-on-your-network-otherwise-the-normal-election-rules-apply" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>browser on your network. Otherwise the normal election rules apply</h1>
+
+<h1>
+<a id="os-level-determines-the-precedence-of-this-server-in-master-browser" class="anchor" href="#os-level-determines-the-precedence-of-this-server-in-master-browser" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OS Level determines the precedence of this server in master browser</h1>
+
+<h1>
+<a id="elections-the-default-value-should-be-reasonable" class="anchor" href="#elections-the-default-value-should-be-reasonable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>elections. The default value should be reasonable</h1>
+
+<h1>
+<a id="preferred-master-causes-samba-to-force-a-local-browser-election-on-startup" class="anchor" href="#preferred-master-causes-samba-to-force-a-local-browser-election-on-startup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preferred Master causes Samba to force a local browser election on startup</h1>
+
+<h1>
+<a id="and-gives-it-a-slightly-higher-chance-of-winning-the-election" class="anchor" href="#and-gives-it-a-slightly-higher-chance-of-winning-the-election" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>and gives it a slightly higher chance of winning the election</h1>
+
+<p>;   local master = no
+;   os level = 33
+;   preferred master = yes</p>
+
+<h1>
+<a id="------------------------------name-resolution--------------------------------" class="anchor" href="#------------------------------name-resolution--------------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>----------------------------- Name Resolution -------------------------------</h1>
+
+<h1>
+<a id="windows-internet-name-serving-support-section" class="anchor" href="#windows-internet-name-serving-support-section" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Windows Internet Name Serving Support Section:</h1>
+
+<h1>
+<a id="note-samba-can-be-either-a-wins-server-or-a-wins-client-but-not-both" class="anchor" href="#note-samba-can-be-either-a-wins-server-or-a-wins-client-but-not-both" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Note: Samba can be either a WINS Server, or a WINS Client, but NOT both</h1>
+
+<h1>
+<a id="--wins-support-tells-the-nmbd-component-of-samba-to-enable-its-wins-server" class="anchor" href="#--wins-support-tells-the-nmbd-component-of-samba-to-enable-its-wins-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>- WINS Support: Tells the NMBD component of Samba to enable it's WINS Server</h1>
+
+<h1>
+<a id="--wins-server-tells-the-nmbd-components-of-samba-to-be-a-wins-client" class="anchor" href="#--wins-server-tells-the-nmbd-components-of-samba-to-be-a-wins-client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>- WINS Server: Tells the NMBD components of Samba to be a WINS Client</h1>
+
+<h1>
+<a id="--wins-proxy-tells-samba-to-answer-name-resolution-queries-on" class="anchor" href="#--wins-proxy-tells-samba-to-answer-name-resolution-queries-on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>- WINS Proxy: Tells Samba to answer name resolution queries on</h1>
+
+<h1>
+<a id="behalf-of-a-non-wins-capable-client-for-this-to-work-there-must-be" class="anchor" href="#behalf-of-a-non-wins-capable-client-for-this-to-work-there-must-be" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>behalf of a non WINS capable client, for this to work there must be</h1>
+
+<h1>
+<a id="at-least-one----wins-server-on-the-network-the-default-is-no" class="anchor" href="#at-least-one----wins-server-on-the-network-the-default-is-no" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>at least one    WINS Server on the network. The default is NO.</h1>
+
+<h1>
+<a id="dns-proxy---tells-samba-whether-or-not-to-try-to-resolve-netbios-names" class="anchor" href="#dns-proxy---tells-samba-whether-or-not-to-try-to-resolve-netbios-names" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DNS Proxy - tells Samba whether or not to try to resolve NetBIOS names</h1>
+
+<h1>
+<a id="via-dns-nslookups" class="anchor" href="#via-dns-nslookups" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>via DNS nslookups.</h1>
+
+<p>;   wins support = yes
+;   wins server = w.x.y.z
+;   wins proxy = yes</p>
+
+<p>;   dns proxy = yes</p>
+
+<h1>
+<a id="----------------------------printing-options------------------------------" class="anchor" href="#----------------------------printing-options------------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>--------------------------- Printing Options -----------------------------</h1>
+
+<h1>
+<a id="load-printers-let-you-load-automatically-the-list-of-printers-rather" class="anchor" href="#load-printers-let-you-load-automatically-the-list-of-printers-rather" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Load Printers let you load automatically the list of printers rather</h1>
+
+<h1>
+<a id="than-setting-them-up-individually" class="anchor" href="#than-setting-them-up-individually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>than setting them up individually</h1>
+
+<h1>
+<a id="cups-options-let-you-pass-the-cups-libs-custom-options-setting-it-to-raw" class="anchor" href="#cups-options-let-you-pass-the-cups-libs-custom-options-setting-it-to-raw" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cups Options let you pass the cups libs custom options, setting it to raw</h1>
+
+<h1>
+<a id="for-example-will-let-you-use-drivers-on-your-windows-clients" class="anchor" href="#for-example-will-let-you-use-drivers-on-your-windows-clients" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for example will let you use drivers on your Windows clients</h1>
+
+<h1>
+<a id="printcap-name-let-you-specify-an-alternative-printcap-file" class="anchor" href="#printcap-name-let-you-specify-an-alternative-printcap-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Printcap Name let you specify an alternative printcap file</h1>
+
+<h1>
+<a id="you-can-choose-a-non-default-printing-system-using-the-printing-option" class="anchor" href="#you-can-choose-a-non-default-printing-system-using-the-printing-option" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>You can choose a non default printing system using the Printing option</h1>
+
+<pre><code>load printers = yes
+cups options = raw
+</code></pre>
+
+<p>;   printcap name = /etc/printcap
+    #obtain list of printers automatically on SystemV
+;   printcap name = lpstat
+;   printing = cups</p>
+
+<h1>
+<a id="----------------------------filesystem-options----------------------------" class="anchor" href="#----------------------------filesystem-options----------------------------" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>--------------------------- Filesystem Options ---------------------------</h1>
+
+<h1>
+<a id="the-following-options-can-be-uncommented-if-the-filesystem-supports" class="anchor" href="#the-following-options-can-be-uncommented-if-the-filesystem-supports" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The following options can be uncommented if the filesystem supports</h1>
+
+<h1>
+<a id="extended-attributes-and-they-are-enabled-usually-by-the-mount-option" class="anchor" href="#extended-attributes-and-they-are-enabled-usually-by-the-mount-option" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extended Attributes and they are enabled (usually by the mount option</h1>
+
+<h1>
+<a id="user_xattr-thess-options-will-let-the-admin-store-the-dos-attributes" class="anchor" href="#user_xattr-thess-options-will-let-the-admin-store-the-dos-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>user_xattr). Thess options will let the admin store the DOS attributes</h1>
+
+<h1>
+<a id="in-an-ea-and-make-samba-not-mess-with-the-permission-bits" class="anchor" href="#in-an-ea-and-make-samba-not-mess-with-the-permission-bits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>in an EA and make samba not mess with the permission bits.</h1>
+
+<h1>
+<a id="note-these-options-can-also-be-set-just-per-share-setting-them-in-global" class="anchor" href="#note-these-options-can-also-be-set-just-per-share-setting-them-in-global" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Note: these options can also be set just per share, setting them in global</h1>
+
+<h1>
+<a id="makes-them-the-default-for-all-shares" class="anchor" href="#makes-them-the-default-for-all-shares" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>makes them the default for all shares</h1>
+
+<p>;   map archive = no
+;   map hidden = no
+;   map read only = no
+;   map system = no
+;   store dos attributes = yes</p>
+
+<h1>
+<a id="-share-definitions-" class="anchor" href="#-share-definitions-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>============================ Share Definitions ==============================</h1>
+
+<p>[homes]
+    comment = Home Directories
+    browseable = no
+    writable = yes
+;   valid users = %S
+;   valid users = MYDOMAIN\%S</p>
+
+<p>[printers]
+    comment = All Printers
+    path = /var/spool/samba
+    browseable = no
+    guest ok = no
+    writable = no
+    printable = yes</p>
+
+<h1>
+<a id="un-comment-the-following-and-create-the-netlogon-directory-for-domain-logons" class="anchor" href="#un-comment-the-following-and-create-the-netlogon-directory-for-domain-logons" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Un-comment the following and create the netlogon directory for Domain Logons</h1>
+
+<p>;   [netlogon]
+;   comment = Network Logon Service
+;   path = /var/lib/samba/netlogon
+;   guest ok = yes
+;   writable = no
+;   share modes = no</p>
+
+<h1>
+<a id="un-comment-the-following-to-provide-a-specific-roving-profile-share" class="anchor" href="#un-comment-the-following-to-provide-a-specific-roving-profile-share" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Un-comment the following to provide a specific roving profile share</h1>
+
+<h1>
+<a id="the-default-is-to-use-the-users-home-directory" class="anchor" href="#the-default-is-to-use-the-users-home-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>the default is to use the user's home directory</h1>
+
+<p>;   [Profiles]
+;   path = /var/lib/samba/profiles
+;   browseable = no
+;   guest ok = yes</p>
+
+<h1>
+<a id="共享文件夹" class="anchor" href="#%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%E5%A4%B9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>共享文件夹</h1>
+
+<pre><code>[chatroom] #显示的共享名称
+comment = testing #注释描述
+path = /usr/local/apache2/htdocs/Swoole/chatroom #分享文件夹路径
+browseable = yes #是否可浏览
+writable = yes  #一定要设置 设置create mask 和 directory mask的前提条件
+create mask = 0755 #这个一定要设置,否则不可写入
+directory mask = 0755 #这个一定要设置同上
+public = no  #是否无需验证访问
+write list = @smb   #允许写入的组，或用户名多个用空格或逗号隔开
+valid users = @smb  #允许访问的用户 用空格或逗号隔开
+</code></pre>
+
+<h1>
+<a id="a-publicly-accessible-directory-but-read-only-except-for-people-in" class="anchor" href="#a-publicly-accessible-directory-but-read-only-except-for-people-in" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A publicly accessible directory, but read only, except for people in</h1>
+
+<h1>
+<a id="the-staff-group" class="anchor" href="#the-staff-group" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>the "staff" group</h1>
+
+<p>;   [public]
+;   comment = Public Stuff
+;   path = /home/samba
+;   public = yes
+;   writable = yes
+;   printable = no
+;   write list = +staff</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Samba-server-config maintained by <a href="https://github.com/yuxingfei">yuxingfei</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
